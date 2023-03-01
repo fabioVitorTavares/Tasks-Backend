@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class ModelTask {
 
-    public  ModelTask(String description, Date dateCreated, Date date){
+    public  ModelTask(String description, Date date, Date dateCreated){
         this.description = description;
         this.dateCreated = dateCreated;
         this.date = date;
@@ -19,7 +19,7 @@ public class ModelTask {
 
     private Date dateCreated;
 
-    public String getId() {
+    public UUID getId() {
         return id;
     }
 

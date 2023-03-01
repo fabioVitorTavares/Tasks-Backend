@@ -1,6 +1,6 @@
 package Tasksbackend.demo.Controller;
-
 import Tasksbackend.demo.Model.Task.ModelTask;
+import Tasksbackend.demo.TaskDTO.TaskDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +16,15 @@ public class Index {
     }
 
     @GetMapping("/tasks")
-    public String indexTexto(@PathVariable String value) {
-        System.out.println(value);
-        return "Value = " + value;
+    public ResponseEntity<ModelTask> getTask() {
+        return ResponseEntity.status(HttpStatus.OK).body(task);
     }
 
     @PostMapping("/tasks")
-    public ResponseEntity<ModelTask> newTask(@RequestBody Mo){
-        ModelTask task = new ModelTask(id);
-        task.setDescription(description);
-        return ResponseEntity.status(HttpStatus.OK).body(task);
+    public ResponseEntity newTask(@RequestBody TaskDTO taskDTO){
+
+        task = new ModelTask(taskDTO.getDescription(), taskDTO.getDate(), taskDTO.getDateCreated());
+
+        return ResponseEntity.status(HttpStatus.OK).body("Task adicionada com sucesso!");
     }
 }
