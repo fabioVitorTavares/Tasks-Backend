@@ -2,7 +2,6 @@ package Tasksbackend.Service;
 
 import Tasksbackend.Repository.TaskRepository;
 import Tasksbackend.TaskDTO.Task;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,9 +32,13 @@ public class TaskService {
     public Task saveUpdateTask(Task task){
         
         Optional<Task> oldTask = taskRepository.findById(task.getId());
-        
-        BeanUtils.copyProperties(task, oldTask);
+
+        oldTask.get().setDescription(task.getDescription());
+
+        oldTask.get().setDate(task.getDate());
+
+        taskRepository.save(oldTask.get());
             
-        return taskRepository.save(oldTask.get());
+        return oldTask.get();
     }
 }
