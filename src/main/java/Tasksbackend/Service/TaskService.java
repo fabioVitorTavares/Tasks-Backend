@@ -41,4 +41,13 @@ public class TaskService {
             
         return oldTask.get();
     }
+
+    public String deleteTask(UUID id){
+        Boolean existTask = taskRepository.existsById(id);
+        if(existTask){
+            taskRepository.deleteById(id);
+            return "Tarefa excluída com sucesso!";
+        }
+        return "Tarefa não encontrada!";
+    }
 }

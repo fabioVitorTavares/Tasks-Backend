@@ -1,11 +1,9 @@
 package Tasksbackend.Controller;
 
 import Tasksbackend.Service.TaskService;
+import Tasksbackend.TaskDTO.IdTask;
 import Tasksbackend.TaskDTO.Task;
 import Tasksbackend.TaskDTO.TaskBase;
-import ch.qos.logback.core.joran.util.beans.BeanUtil;
-import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +13,11 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-public class Controller {
+public class TaskController {
 
     final TaskService taskService;
 
-    public Controller(TaskService taskService){
+    public TaskController(TaskService taskService){
         this.taskService = taskService;
     }
     @GetMapping("/")
@@ -72,5 +70,13 @@ public class Controller {
             return ResponseEntity.status(HttpStatus.OK).body(taskService.saveUpdateTask(updateTask));
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar tarefa!");
+    }
+
+    @DeleteMapping("/task/deleteTask")
+    public ResponseEntity<String> deleteById(@RequestBody IdTask id){
+
+        String response = taskService.deleteTask(id.getId());
+
+        return  ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }
