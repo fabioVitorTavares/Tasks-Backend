@@ -6,13 +6,11 @@ import Tasksbackend.UserDTO.User;
 import Tasksbackend.UserDTO.UserBase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 public class UserController {
@@ -35,6 +33,18 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK).body(users);
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar todos clientes!");
+    }
+
+    @GetMapping("user/getUserById/{id}")
+    public ResponseEntity<Object> getUserById(@RequestParam UUID id){
+
+        Optional<User> user = userService.getUserById(id);
+
+        if(user.isPresent()){
+
+            return ResponseEntity.status(HttpStatus.OK).body(user.get());
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar usuário!");
     }
 
     @PostMapping("/user/addNewUser")
