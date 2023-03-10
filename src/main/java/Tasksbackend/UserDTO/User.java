@@ -38,4 +38,7 @@ public class User {
     private String userName;
     @Column
     private String password;
+
+    @Column
+    private String token;
 }

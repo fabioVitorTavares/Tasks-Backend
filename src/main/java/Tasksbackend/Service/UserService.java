@@ -32,4 +32,27 @@ public class UserService {
         return Optional.of(userAdded);
     }
 
+    public Optional<User> saveUpdateUser(User user){
+
+        Optional<User> updatedUser = userRepository.findById(user.getId());
+
+        if(updatedUser.isPresent()){
+
+            updatedUser.get().setUserName(user.getUserName());
+
+            updatedUser.get().setCpf(user.getCpf());
+
+            updatedUser.get().setName(user.getName());
+
+            updatedUser.get().setEmail(user.getEmail());
+
+            updatedUser.get().setPassword(user.getPassword());
+
+            userRepository.save(updatedUser.get());
+
+            return updatedUser;
+        }
+        return Optional.empty();
+    }
+
 }

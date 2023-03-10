@@ -60,4 +60,17 @@ public class UserController {
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao adicionar novo usuário!");
     }
+
+    @PutMapping("/user/updateUser")
+    public ResponseEntity<Object> updateUser(@RequestBody User user){
+
+        Optional<User> userUpdated = userService.saveUpdateUser(user);
+
+        if(userUpdated.isPresent()){
+
+            return ResponseEntity.status(HttpStatus.OK).body("Usuário atualizado com sucesso!");
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar usuário!");
+    }
+
 }
