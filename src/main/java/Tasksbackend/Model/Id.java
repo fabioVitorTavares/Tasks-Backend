@@ -1,10 +1,10 @@
-package Tasksbackend.TaskDTO;
+package Tasksbackend.Model;
 
 import lombok.Getter;
 
 import java.util.UUID;
 
 @Getter
-public class IdTask {
+public class Id {
     private UUID id;
 }

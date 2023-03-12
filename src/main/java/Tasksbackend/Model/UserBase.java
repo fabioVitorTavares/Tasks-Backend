@@ -1,4 +1,4 @@
-package Tasksbackend.UserDTO;
+package Tasksbackend.Model;
 
 import lombok.Getter;
 

@@ -1,9 +1,9 @@
 package Tasksbackend.Controller;
 
 import Tasksbackend.Service.TaskService;
-import Tasksbackend.TaskDTO.IdTask;
-import Tasksbackend.TaskDTO.Task;
-import Tasksbackend.TaskDTO.TaskBase;
+import Tasksbackend.Model.Id;
+import Tasksbackend.Model.Task;
+import Tasksbackend.Model.TaskBase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -47,33 +47,26 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Tarefa não encontrada!");
     }
 
-    @PostMapping("/task/addNewTask")
-    public ResponseEntity<Object> addNewtask(@RequestBody TaskBase newTask){
+    @PostMapping("/task/saveTask")
+    public ResponseEntity<Object> saveTask(@RequestBody TaskBase newTask){
 
-       Optional<Task> taskAdded = Optional.ofNullable(taskService.addNewTask(Optional.of(new Task(newTask.getDescription(), newTask.getDateCreated(), newTask.getDate()))));
+       Task taskAdded = new Task(newTask.getDescription(), newTask.getDateCreated(), newTask.getDate());
 
-       if(taskAdded.isPresent()){
+       String response = taskService.saveTask(taskAdded);
 
-           return ResponseEntity.status(HttpStatus.CREATED).body(taskAdded);
-
-       }
-       return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao adicionar nova tarefa!");
+       return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/task/updateTask")
     public ResponseEntity<Object> updateTask(@RequestBody Task updateTask){
 
-        Optional<Task> updatedTask = Optional.of(taskService.saveUpdateTask(updateTask));
+        String response = taskService.updateTask(updateTask);
 
-        if(updatedTask.isPresent()) {
-
-            return ResponseEntity.status(HttpStatus.OK).body(taskService.saveUpdateTask(updateTask));
-        }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar tarefa!");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping("/task/deleteTask")
-    public ResponseEntity<String> deleteById(@RequestBody IdTask id){
+    public ResponseEntity<String> deleteById(@RequestBody Id id){
 
         String response = taskService.deleteTask(id.getId());
 

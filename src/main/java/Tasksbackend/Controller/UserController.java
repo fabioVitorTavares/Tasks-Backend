@@ -1,9 +1,9 @@
 package Tasksbackend.Controller;
 
-import Tasksbackend.Service.TaskService;
+import Tasksbackend.Model.Id;
 import Tasksbackend.Service.UserService;
-import Tasksbackend.UserDTO.User;
-import Tasksbackend.UserDTO.UserBase;
+import Tasksbackend.Model.User;
+import Tasksbackend.Model.UserBase;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @GetMapping("user/getUserById/{id}")
-    public ResponseEntity<Object> getUserById(@RequestParam UUID id){
+    public ResponseEntity<Object> getUserById(@PathVariable UUID id){
 
         Optional<User> user = userService.getUserById(id);
 
@@ -47,30 +47,30 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao buscar usuário!");
     }
 
-    @PostMapping("/user/addNewUser")
-    public ResponseEntity<Object> addNewUser(@RequestBody UserBase newUser){
+    @PostMapping("/user/saveUser")
+    public ResponseEntity<Object> saveUser(@RequestBody UserBase newUser){
 
         User user = new User(newUser.getName(), newUser.getCpf(), newUser.getEmail(), newUser.getUserName(), newUser.getPassword());
 
-        Optional<User> userAdded = userService.saveUser(user);
+        String response = userService.saveUser(user);
 
-        if(userAdded.isPresent()){
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(userAdded);
-        }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao adicionar novo usuário!");
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/user/updateUser")
     public ResponseEntity<Object> updateUser(@RequestBody User user){
 
-        Optional<User> userUpdated = userService.saveUpdateUser(user);
+        String response = userService.updateUser(user);
 
-        if(userUpdated.isPresent()){
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 
-            return ResponseEntity.status(HttpStatus.OK).body("Usuário atualizado com sucesso!");
-        }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao atualizar usuário!");
+    @DeleteMapping(path = "/user/deleteUser")
+    public  ResponseEntity<Object> deleteUser(@RequestBody Id id){
+
+        String response = userService.deleteUser(id.getId());
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
 }

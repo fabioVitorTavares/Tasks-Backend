@@ -1,7 +1,7 @@
 package Tasksbackend.Service;
 
 import Tasksbackend.Repository.UserRepository;
-import Tasksbackend.UserDTO.User;
+import Tasksbackend.Model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,18 +25,18 @@ public class UserService {
 
         return userRepository.findById(id);
     }
-    public Optional<User> saveUser(User user){
+    public String saveUser(User user){
 
-        User userAdded  = userRepository.save(user);
+        userRepository.save(user);
 
-        return Optional.of(userAdded);
+        return "Usuário salvo com sucesso!";
     }
 
-    public Optional<User> saveUpdateUser(User user){
+    public String updateUser(User user){
 
-        Optional<User> updatedUser = userRepository.findById(user.getId());
+        if(userRepository.existsById(user.getId())){
 
-        if(updatedUser.isPresent()){
+            Optional<User> updatedUser = userRepository.findById(user.getId());
 
             updatedUser.get().setUserName(user.getUserName());
 
@@ -50,9 +50,19 @@ public class UserService {
 
             userRepository.save(updatedUser.get());
 
-            return updatedUser;
+            return "Usuário alterado com sucesso!";
         }
-        return Optional.empty();
+        return "Usuário não encontrado!";
     }
 
+    public String deleteUser(UUID id) {
+
+        if (userRepository.existsById(id)) {
+
+            userRepository.deleteById(id);
+
+            return "Usuário removido com sucesso!";
+        }
+        return "Usuário não encontrado";
+    }
 }

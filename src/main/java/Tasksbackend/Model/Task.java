@@ -1,4 +1,4 @@
-package Tasksbackend.TaskDTO;
+package Tasksbackend.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,7 +1,7 @@
 package Tasksbackend.Service;
 
 import Tasksbackend.Repository.TaskRepository;
-import Tasksbackend.TaskDTO.Task;
+import Tasksbackend.Model.Task;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +17,11 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public Task addNewTask(Optional<Task> task){
-        return taskRepository.save(task.get());
+    public String saveTask(Task task){
+
+        taskRepository.save(task);
+
+        return "Tarefa salva com sucesso!";
     }
 
     public Optional<Task> getTaskById(UUID id){
@@ -29,17 +32,21 @@ public class TaskService {
         return taskRepository.findAll();
     }
 
-    public Task saveUpdateTask(Task task){
-        
-        Optional<Task> oldTask = taskRepository.findById(task.getId());
+    public String updateTask(Task task){
 
-        oldTask.get().setDescription(task.getDescription());
+        if(taskRepository.existsById(task.getId())) {
 
-        oldTask.get().setDate(task.getDate());
+            Optional<Task> updatedTask = taskRepository.findById(task.getId());
 
-        taskRepository.save(oldTask.get());
-            
-        return oldTask.get();
+            updatedTask.get().setDescription(task.getDescription());
+
+            updatedTask.get().setDate(task.getDate());
+
+            taskRepository.save(updatedTask.get());
+
+            return "Tarefa alterada com sucesso!";
+        }
+        return "Tarefa não encontrada!";
     }
 
     public String deleteTask(UUID id){
