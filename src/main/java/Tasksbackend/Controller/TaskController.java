@@ -1,9 +1,11 @@
 package Tasksbackend.Controller;
 
+import Tasksbackend.Model.User;
 import Tasksbackend.Service.TaskService;
 import Tasksbackend.Model.Id;
 import Tasksbackend.Model.Task;
 import Tasksbackend.Model.TaskBase;
+import Tasksbackend.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +18,12 @@ import java.util.UUID;
 public class TaskController {
 
     final TaskService taskService;
+    final UserService userService;
 
-    public TaskController(TaskService taskService){
+    public TaskController(TaskService taskService, UserService userService){
+
         this.taskService = taskService;
+        this.userService = userService;
     }
     @GetMapping("/")
     public String index(){
@@ -49,12 +54,19 @@ public class TaskController {
 
     @PostMapping("/task/saveTask")
     public ResponseEntity<Object> saveTask(@RequestBody TaskBase newTask){
+       Optional<User> user = userService.getUserById(newTask.getIdUser());
 
-       Task taskAdded = new Task(newTask.getDescription(), newTask.getDateCreated(), newTask.getDate());
+       if(user.isPresent()) {
 
-       String response = taskService.saveTask(taskAdded);
+           User userAdded = user.get();
 
-       return ResponseEntity.status(HttpStatus.CREATED).body(response);
+           Task taskAdded = new Task(newTask.getDescription(), newTask.getDateCreated(), newTask.getDate(), userAdded);
+
+           String response = taskService.saveTask(taskAdded);
+
+           return ResponseEntity.status(HttpStatus.CREATED).body(response);
+       }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Usuário não encontrado!");
     }
 
     @PutMapping("/task/updateTask")

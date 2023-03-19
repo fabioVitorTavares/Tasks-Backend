@@ -1,9 +1,9 @@
 package Tasksbackend.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import Tasksbackend.Repository.UserRepository;
+import Tasksbackend.Service.UserService;
+import jakarta.persistence.*;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,10 +18,13 @@ import java.util.UUID;
 @Setter
 public class Task {
 
-    public Task(String description, Date dateCreated, Date date){
+
+
+    public Task(String description, Date dateCreated, Date date, User user){
         this.description = description;
         this.dateCreated = dateCreated;
         this.date = date;
+        this.user = user;
         this.id = UUID.randomUUID();
     }
     @Column
@@ -35,4 +38,7 @@ public class Task {
 
     @Id
     private UUID id;
+
+    @ManyToOne
+    private User user;
 }

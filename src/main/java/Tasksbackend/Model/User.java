@@ -1,9 +1,8 @@
 package Tasksbackend.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
+import jakarta.annotation.Nullable;
+import jakarta.persistence.*;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -30,6 +29,7 @@ public class User {
     private UUID id;
     @Column
     private String name;
+
     @Column
     private String cpf;
     @Column

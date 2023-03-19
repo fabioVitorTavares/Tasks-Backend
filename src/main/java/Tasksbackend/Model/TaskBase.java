@@ -3,6 +3,7 @@ package Tasksbackend.Model;
 import lombok.Getter;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Getter
 public class TaskBase {
@@ -13,4 +14,5 @@ public class TaskBase {
 
     private Date dateCreated;
 
+    private UUID idUser;
 }
