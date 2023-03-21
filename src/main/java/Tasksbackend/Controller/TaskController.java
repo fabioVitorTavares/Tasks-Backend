@@ -30,7 +30,7 @@ public class TaskController {
         return "Index";
     }
 
-
+    @CrossOrigin("*")
     @GetMapping("task/getAllTasks")
     public ResponseEntity<Object> getAllTasks() {
         Optional<List<Task>> listOfTasks = Optional.of(taskService.getAllTasks());
