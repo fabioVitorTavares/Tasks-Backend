@@ -34,24 +34,24 @@ public class UserService {
 
     public String updateUser(User user){
 
-        if(userRepository.existsById(user.getId())){
-
             Optional<User> updatedUser = userRepository.findById(user.getId());
 
-            updatedUser.get().setUserName(user.getUserName());
+            if(updatedUser.isPresent()) {
 
-            updatedUser.get().setCpf(user.getCpf());
+                updatedUser.get().setUserName(user.getUserName());
 
-            updatedUser.get().setName(user.getName());
+                updatedUser.get().setCpf(user.getCpf());
 
-            updatedUser.get().setEmail(user.getEmail());
+                updatedUser.get().setName(user.getName());
 
-            updatedUser.get().setPassword(user.getPassword());
+                updatedUser.get().setEmail(user.getEmail());
 
-            userRepository.save(updatedUser.get());
+                updatedUser.get().setPassword(user.getPassword());
 
-            return "Usuário alterado com sucesso!";
-        }
+                userRepository.save(updatedUser.get());
+
+                return "Usuário alterado com sucesso!";
+            }
         return "Usuário não encontrado!";
     }
 

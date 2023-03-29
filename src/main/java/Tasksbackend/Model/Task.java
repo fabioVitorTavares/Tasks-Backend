@@ -18,8 +18,6 @@ import java.util.UUID;
 @Setter
 public class Task {
 
-
-
     public Task(String description, Date dateCreated, Date date, User user){
         this.description = description;
         this.dateCreated = dateCreated;
