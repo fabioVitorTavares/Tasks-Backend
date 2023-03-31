@@ -7,7 +7,7 @@ plugins {
 jar {
 	manifest {
 		attributes(
-				'Main-Class': 'com.example.Tasks-backend.main'
+				'Main-Class': 'com.example.Tasksbackend.main'
 		)
 	}
 }
